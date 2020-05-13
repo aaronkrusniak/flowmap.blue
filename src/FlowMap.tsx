@@ -105,7 +105,7 @@ import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 
 const CONTROLLER_OPTIONS = {
   type: MapController,
-  doubleClickZoom: false,
+  doubleClickZoom: true,
   dragRotate: true,
   touchRotate: true,
   minZoom: MIN_ZOOM_LEVEL,

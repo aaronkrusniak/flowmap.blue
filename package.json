@@ -20,6 +20,7 @@
     "@sentry/browser": "^5.15.4",
     "@turf/bbox": "^6.0.1",
     "@turf/boolean-point-in-polygon": "^6.0.1",
+    "@turf/difference": "^6.0.1",
     "@types/d3-collection": "^1.0.7",
     "@types/d3-color": "^1.2.1",
     "@types/d3-dsv": "^1.0.35",
