@@ -64,12 +64,12 @@ const Button = styled.button<ButtonProps>(
   cursor: pointer;
   align-items: center;
   font-size: 22px;
-  background-color: ${darkMode ? Colors.DARK_GRAY4 : Colors.LIGHT_GRAY5};
+  background-color: ${Colors.LIGHT_GRAY5};
   color: #ccc;
   border-radius: ${collapsed ? 4 : 0}px;
   transition: background-color 0.25s, border-radius 0.15s;  
   &:hover {
-    background-color: ${darkMode ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY4};
+    background-color: ${Colors.LIGHT_GRAY4};
   }
 `
 );

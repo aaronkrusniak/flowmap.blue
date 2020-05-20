@@ -114,9 +114,9 @@ export default function getColors(
 
   let scheme = (schemeKey && COLOR_SCHEMES[schemeKey]) || DEFAULT_COLOR_SCHEME;
 
-  if (darkMode) {
+  /*if (darkMode) {
     scheme = scheme.slice().reverse();
-  }
+  }*/
   // if (animate)
   // if (fadeAmount > 0)
   {
@@ -144,7 +144,7 @@ export default function getColors(
       scheme = indices.map(
         (c, i) => {
           const col = hcl(colorScale(i));
-          col.l = darkMode ? col.l - col.l * amount(i) : col.l + (100 - col.l) * amount(i);
+          col.l = col.l + (100 - col.l) * amount(i);
           col.c = col.c - col.c * (amount(i) / 4);
           return col.toString();
         }
@@ -159,8 +159,8 @@ export default function getColors(
       scheme,
     },
     locationCircles: {
-      outgoing: darkMode ? '#000' : '#fff',
+      outgoing: '#fff',
     },
-    outlineColor: darkMode ? '#000' : 'rgba(255, 255, 255, 0.5)',
+    outlineColor: 'rgba(255, 255, 255, 0.5)',
   };
 }

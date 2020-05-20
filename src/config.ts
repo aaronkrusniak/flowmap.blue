@@ -1,7 +1,7 @@
 import { Config, ConfigPropName } from './types';
 
 export const DEFAULT_MAP_STYLE_LIGHT = 'mapbox://styles/mapbox/light-v10';
-export const DEFAULT_MAP_STYLE_DARK = 'mapbox://styles/mapbox/dark-v10';
+export const DEFAULT_MAP_STYLE_DARK = 'mapbox://styles/somethingaaron/ckafhnj6k0o5q1iqblc8cv16p';
 export const DEFAULT_CONFIG: Config = {
   [ConfigPropName.MAPBOX_ACCESS_TOKEN]: process.env.REACT_APP_MapboxAccessToken,
   'msg.locationTooltip.incoming': 'Incoming trips',

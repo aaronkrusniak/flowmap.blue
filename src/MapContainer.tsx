@@ -17,7 +17,7 @@ const MapContainer: React.FC<Props> = ({ embed, children }) => (
     {supportsWebGl ? (
       <>
         {children}
-        <Absolute top={10} left={10}>
+        <Absolute bottom={8} left={100}>
           <Logo embed={embed} />
         </Absolute>
       </>

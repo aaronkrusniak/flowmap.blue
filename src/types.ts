@@ -2,7 +2,9 @@ import * as Cluster from '@flowmap.gl/cluster';
 
 export enum ConfigPropName {
   TITLE = 'title',
-  DESCRIPTION = 'description',
+  DESCRIPTION = 'descriptionA',
+  DESCRIPTIONB = 'descriptionB',
+  DESCRIPTIONC = 'descriptionC',
   AUTHOR_NAME = 'createdBy.name',
   AUTHOR_URL = 'createdBy.url',
   SOURCE_NAME = 'source.name',

@@ -131,7 +131,7 @@ const DeckGLOuter = styled.div<{
 }>(
   ({ cursor, baseMapOpacity, darkMode }) => `
   & #deckgl-overlay {
-    mix-blend-mode: ${darkMode ? 'screen' : 'multiply'};
+    mix-blend-mode: ${darkMode ? 'multiply' : 'multiply'};
   }
   & .mapboxgl-map {
     opacity: ${baseMapOpacity}
@@ -527,6 +527,8 @@ const FlowMap: React.FC<Props> = (props) => {
   const searchBoxLocations = getLocationsForSearchBox(state, props);
   const title = config[ConfigPropName.TITLE];
   const description = config[ConfigPropName.DESCRIPTION];
+  const descriptionB = config[ConfigPropName.DESCRIPTIONB];
+  const descriptionC = config[ConfigPropName.DESCRIPTIONC]
   const sourceUrl = config[ConfigPropName.SOURCE_URL];
   const sourceName = config[ConfigPropName.SOURCE_NAME];
   const authorUrl = config[ConfigPropName.AUTHOR_URL];
@@ -696,7 +698,7 @@ const FlowMap: React.FC<Props> = (props) => {
         animationEnabled ? 'animated' : 'arrows',
         locationTotalsEnabled ? 'withTotals' : '',
         colorSchemeKey,
-        darkMode ? 'dark' : 'light',
+        darkMode ? 'light' : 'light',
         fadeAmount,
       ].join('-');
 
@@ -750,9 +752,9 @@ const FlowMap: React.FC<Props> = (props) => {
     <NoScrollContainer
       ref={outerRef}
       onMouseLeave={hideTooltip}
-      className={darkMode ? Classes.DARK : undefined}
+      className={undefined}
       style={{
-        background: darkMode ? Colors.DARK_GRAY1 : Colors.LIGHT_GRAY5,
+        background: Colors.LIGHT_GRAY5,
       }}
     >
       <DeckGLOuter
@@ -768,7 +770,7 @@ const FlowMap: React.FC<Props> = (props) => {
           layers={getLayers()}
           ContextProvider={MapContext.Provider}
           parameters={{
-            clearColor: darkMode ? [0, 0, 0, 1] : [255, 255, 255, 1],
+            clearColor: [255, 255, 255, 1],
           }}
         >
           {mapboxAccessToken && baseMapEnabled && (
@@ -791,7 +793,7 @@ const FlowMap: React.FC<Props> = (props) => {
         <>
           {searchBoxLocations && (
             <Absolute top={10} right={50}>
-              <StyledBox darkMode={darkMode}>
+              <StyledBox>
                 <LocationsSearchBox
                   locationFilterMode={state.locationFilterMode}
                   locations={searchBoxLocations}
@@ -831,8 +833,8 @@ const FlowMap: React.FC<Props> = (props) => {
             </Column>
           </Absolute>
           {state.locationTotalsEnabled && !embed && (
-            <Box bottom={28} right={0} darkMode={darkMode}>
-              <Collapsible darkMode={darkMode} width={160} direction={Direction.RIGHT}>
+            <Box bottom={28} right={0}>
+              <Collapsible darkMode={false} width={160} direction={Direction.RIGHT}>
                 <Column spacing={10} padding={12}>
                   <LegendTitle>Location totals</LegendTitle>
                   <LocationTotalsLegend diff={diffMode} colors={getFlowMapColors(state, props)} />
@@ -844,7 +846,7 @@ const FlowMap: React.FC<Props> = (props) => {
       )}
       {!embed && (
         <Absolute bottom={40} left={10}>
-          <SettingsPopover darkMode={darkMode} state={state} dispatch={dispatch} />
+          <SettingsPopover darkMode={false} state={state} dispatch={dispatch} />
         </Absolute>
       )}
       {embed && (
@@ -857,13 +859,17 @@ const FlowMap: React.FC<Props> = (props) => {
         </Absolute>
       )}
       {spreadSheetKey && !embed && (
-        <TitleBox top={60} left={0} darkMode={darkMode}>
-          <Collapsible darkMode={darkMode} width={300} direction={Direction.LEFT}>
+        <TitleBox top={60} left={0} darkMode={false}>
+          <Collapsible darkMode={false} width={300} direction={Direction.LEFT}>
             <Column spacing={10} padding="12px 20px">
               {title && (
                 <div>
                   <Title>{title}</Title>
                   <Description>{description}</Description>
+                  <br></br>
+                  <Description>{descriptionB}</Description>
+                  <br></br>
+                  <Description>{descriptionC}</Description>
                 </div>
               )}
               {flowsSheets && flowsSheets.length > 1 && (
@@ -878,10 +884,10 @@ const FlowMap: React.FC<Props> = (props) => {
               )}
               {authorUrl ? (
                 <div>
-                  {`Created by: `}
+                  {`Created by the `}
                   <Away href={`${authorUrl.indexOf('://') < 0 ? 'http://' : ''}${authorUrl}`}>
                     {authorName || 'Author'}
-                  </Away>
+                  </Away>{' as part of ongoing work to increase mobility in Benton Harbor.'}
                 </div>
               ) : authorName ? (
                 <div>Created by: {authorName}</div>
@@ -897,11 +903,8 @@ const FlowMap: React.FC<Props> = (props) => {
                 </div>
               )}
               <div>
-                {'Data behind this map is in '}
-                <Away href={`https://docs.google.com/spreadsheets/d/${spreadSheetKey}`}>
-                  this spreadsheet
-                </Away>
-                . You can <Link to="/">publish your own</Link> too.
+                {'This visualization was made using flowmap.blue, a tool created by Ilya Boyandin. '}
+                You can <Away href="https://flowmap.blue/">publish your own here.</Away> 
               </div>
             </Column>
           </Collapsible>

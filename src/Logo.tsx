@@ -26,7 +26,7 @@ const LogoText = styled.div<Props>(({ fontSize, collapseWidth }: Props) => ({
   },
 }));
 
-const Logo = ({ fontSize = 25, collapseWidth = 525, embed }: Props) => {
+const Logo = ({ fontSize = 15, collapseWidth = 525, embed }: Props) => {
   const size = Math.ceil(fontSize * 1.5);
   return (
     <Link
