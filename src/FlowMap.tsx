@@ -834,7 +834,7 @@ const FlowMap: React.FC<Props> = (props) => {
           </Absolute>
           {state.locationTotalsEnabled && !embed && (
             <Box bottom={28} right={0}>
-              <Collapsible darkMode={false} width={160} direction={Direction.RIGHT}>
+              <Collapsible darkMode={darkMode} width={160} direction={Direction.RIGHT}>
                 <Column spacing={10} padding={12}>
                   <LegendTitle>Location totals</LegendTitle>
                   <LocationTotalsLegend diff={diffMode} colors={getFlowMapColors(state, props)} />
@@ -846,7 +846,7 @@ const FlowMap: React.FC<Props> = (props) => {
       )}
       {!embed && (
         <Absolute bottom={40} left={10}>
-          <SettingsPopover darkMode={false} state={state} dispatch={dispatch} />
+          <SettingsPopover darkMode={darkMode} state={state} dispatch={dispatch} />
         </Absolute>
       )}
       {embed && (
@@ -859,8 +859,8 @@ const FlowMap: React.FC<Props> = (props) => {
         </Absolute>
       )}
       {spreadSheetKey && !embed && (
-        <TitleBox top={60} left={0} darkMode={false}>
-          <Collapsible darkMode={false} width={300} direction={Direction.LEFT}>
+        <TitleBox top={60} left={0} darkMode={darkMode}>
+          <Collapsible darkMode={darkMode} width={300} direction={Direction.LEFT}>
             <Column spacing={10} padding="12px 20px">
               {title && (
                 <div>

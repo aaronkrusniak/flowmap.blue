@@ -449,13 +449,14 @@ export function stateToQueryString(state: State) {
   return parts.join('&');
 }
 
+// BEWARE: experimenting with a hard-coded viewport just for this visualization!
 export function getInitialViewport(bbox: [number, number, number, number]) {
   const width = window.innerWidth;
   const height = window.innerHeight;
   const {
     center: [longitude, latitude],
     zoom,
-  } = viewport(bbox, [width, height], undefined, undefined, 512, true);
+  } = viewport(/*hard-coded numbers replacing bbox variable here: */[42.10, -86.50, 42.12, -86.44], [width, height], undefined, undefined, 512, true);
   return {
     width,
     height,
