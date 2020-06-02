@@ -456,7 +456,7 @@ export function getInitialViewport(bbox: [number, number, number, number]) {
   const {
     center: [longitude, latitude],
     zoom,
-  } = viewport(/*hard-coded numbers replacing bbox variable here: */[42.10, -86.50, 42.12, -86.44], [width, height], undefined, undefined, 512, true);
+  } = viewport(bbox, [width, height], undefined, undefined, 512, true);
   return {
     width,
     height,
@@ -473,12 +473,12 @@ export function getInitialViewport(bbox: [number, number, number, number]) {
   };
 }
 
-export const DEFAULT_VIEWPORT = getInitialViewport([-180, -70, 180, 70]);
+export const DEFAULT_VIEWPORT = getInitialViewport([-86.50, 42.10, -86.44, 42.12]);
 
 export function getInitialState(config: Config, queryString: string) {
   const draft = {
     viewport: DEFAULT_VIEWPORT,
-    adjustViewportToLocations: true,
+    adjustViewportToLocations: false,
     selectedLocations: undefined,
     locationTotalsEnabled: true,
     locationFilterMode: LocationFilterMode.ALL,

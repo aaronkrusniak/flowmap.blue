@@ -117,7 +117,7 @@ const SettingsPopover: React.FC<Props> = ({ dispatch, state, darkMode }) => {
             <Column spacing={10}>
               <StyledSwitch
                 checked={state.darkMode}
-                label="Show TCATA bus routes"
+                label="Show bus routes & municipal boundaries"
                 onChange={handleToggleDarkMode}
               />
               <StyledSwitch
