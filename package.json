@@ -1,7 +1,6 @@
 {
-  "name": "flowmap.blue",
-  "version": "0.1.0",
   "private": true,
+<<<<<<< HEAD
   "dependencies": {
     "@blueprintjs/core": "^3.23.1",
     "@blueprintjs/select": "^3.10.0",
@@ -82,23 +81,25 @@
     "puppeteer": "^2.1.1",
     "sharp": "^0.24.0"
   },
+=======
+>>>>>>> upstream/master
   "scripts": {
-    "start": "PORT=7000 react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "favicons": "node scripts/favicons.js",
-    "shots": "node scripts/screenshots.js",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "start": "cd packages/app && yarn start",
+    "build:core": "cd packages/core && yarn build",
+    "build:core:esm": "cd packages/core && yarn build:esm",
+    "build:app": "yarn build:core:esm && cd packages/app && yarn build",
+    "dev:core": "cd packages/core && yarn dev",
+    "dev:app": "cd packages/app && yarn dev",
+    "shots": "cd packages/app && yarn shots",
+    "dev": "npm run dev:core & npm run dev:app",
+    "build": "yarn build:core && yarn build:app",
+    "version-bump": "lerna version --no-push --force-publish",
+    "publish-prerelease": "lerna publish --dist-tag next from-package",
+    "lint": "tslint --fix '{packages/*}/{src}/**/*.{ts,tsx}'",
+    "typecheck": "lerna run --stream typecheck"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
+  "workspaces": [
+    "packages/*"
   ],
   "resolutions": {
     "**/@turf/difference": "6.0.1"
