@@ -6,6 +6,7 @@ import { Dispatch, SyntheticEvent } from 'react';
 import styled from '@emotion/styled';
 import { Action, ActionType, State } from './FlowMap.state';
 import ColorSchemeSelector from './ColorSchemeSelector';
+import { ConfigPropName } from './types';
 
 const SettingsOuter = styled.div`
   width: 290px;
@@ -17,6 +18,8 @@ const StyledSwitch = styled(Switch)`
   align-self: flex-start;
   white-space: nowrap;
 `;
+
+const accessToken = process.env.REACT_APP_MapboxAccessToken;
 
 interface Props {
   state: State;
@@ -86,6 +89,22 @@ const SettingsPopover: React.FC<Props> = ({ dispatch, state, darkMode }) => {
     });
   };
 
+  const handleToggleBusRoutes = (evt: SyntheticEvent) => {
+    const value = (evt.target as HTMLInputElement).checked;
+    dispatch({
+      type: ActionType.TOGGLE_BUSROUTES,
+      busRoutes: value,
+    });
+  };
+
+  const handleToggleBoundaries = (evt: SyntheticEvent) => {
+    const value = (evt.target as HTMLInputElement).checked;
+    dispatch({
+      type: ActionType.TOGGLE_BOUNDARIES,
+      boundaries: value,
+    });
+  };
+
   return (
     <Popover
       hoverOpenDelay={0}
@@ -116,10 +135,22 @@ const SettingsPopover: React.FC<Props> = ({ dispatch, state, darkMode }) => {
             </Row>
             <Column spacing={10}>
               <StyledSwitch
+                checked={state.busRoutes}
+                label="Toggle bus routes"
+                onChange={handleToggleBusRoutes}
+              />
+              <StyledSwitch
+                checked={state.boundaries}
+                label="Toggle municipal boundaries"
+                onChange={handleToggleBoundaries}
+              />
+
+              <StyledSwitch
                 checked={state.darkMode}
                 label="Show bus routes & municipal boundaries"
                 onChange={handleToggleDarkMode}
               />
+
               <StyledSwitch
                 checked={state.animationEnabled}
                 label="Animate flows"

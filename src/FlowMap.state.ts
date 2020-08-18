@@ -61,6 +61,8 @@ export interface State {
   baseMapOpacity: number;
   colorSchemeKey: string | undefined;
   selectedFlowsSheet: string | undefined;
+  busRoutes: boolean;
+  boundaries: boolean;
 }
 
 export enum ActionType {
@@ -83,6 +85,8 @@ export enum ActionType {
   SET_BASE_MAP_OPACITY = 'SET_BASE_MAP_OPACITY',
   SET_COLOR_SCHEME = 'SET_COLOR_SCHEME',
   SET_FLOWS_SHEET = 'SET_FLOWS_SHEET',
+  TOGGLE_BUSROUTES = 'TOGGLE_BUSROUTES',
+  TOGGLE_BOUNDARIES = 'TOGGLE_BOUNDARIES',
 }
 
 export type Action =
@@ -158,6 +162,14 @@ export type Action =
   | {
       type: ActionType.SET_COLOR_SCHEME;
       colorSchemeKey: string;
+    }
+  | {
+      type: ActionType.TOGGLE_BUSROUTES;
+      busRoutes: boolean;
+    }
+  | {
+      type: ActionType.TOGGLE_BOUNDARIES;
+      boundaries: boolean;
     };
 
 function mainReducer(state: State, action: Action): State {
@@ -260,7 +272,7 @@ function mainReducer(state: State, action: Action): State {
       const { locationId, incremental } = action;
       let nextSelectedLocations;
       if (selectedLocations) {
-        const idx = selectedLocations.findIndex(id => id === locationId);
+        const idx = selectedLocations.findIndex((id) => id === locationId);
         if (idx >= 0) {
           nextSelectedLocations = selectedLocations.slice();
           nextSelectedLocations.splice(idx, 1);
@@ -348,6 +360,20 @@ function mainReducer(state: State, action: Action): State {
         selectedFlowsSheet: sheet,
       };
     }
+    case ActionType.TOGGLE_BUSROUTES: {
+      const { busRoutes } = action;
+      return {
+        ...state,
+        busRoutes,
+      };
+    }
+    case ActionType.TOGGLE_BOUNDARIES: {
+      const { boundaries } = action;
+      return {
+        ...state,
+        boundaries,
+      };
+    }
   }
   return state;
 }
@@ -406,6 +432,8 @@ export function applyStateFromQueryString(initialState: State, query: string) {
   draft.animationEnabled = asBoolean(params.a) ?? draft.animationEnabled;
   draft.clusteringEnabled = asBoolean(params.c) ?? draft.clusteringEnabled;
   draft.locationTotalsEnabled = asBoolean(params.lt) ?? draft.locationTotalsEnabled;
+  draft.busRoutes = asBoolean(params.br) ?? draft.busRoutes;
+  draft.boundaries = asBoolean(params.by) ?? draft.boundaries;
   if (params.lfm != null && params.lfm in LocationFilterMode) {
     draft.locationFilterMode = params.lfm as LocationFilterMode;
   }
@@ -439,6 +467,9 @@ export function stateToQueryString(state: State) {
   parts.push(`d=${state.darkMode ? 1 : 0}`);
   parts.push(`lt=${state.locationTotalsEnabled ? 1 : 0}`);
   parts.push(`lfm=${state.locationFilterMode}`);
+  parts.push(`bo=${state.busRoutes ? 1 : 0}`);
+  parts.push(`by=${state.boundaries ? 1 : 0}`);
+
   if (state.colorSchemeKey != null) {
     parts.push(`col=${state.colorSchemeKey}`);
   }
@@ -473,7 +504,7 @@ export function getInitialViewport(bbox: [number, number, number, number]) {
   };
 }
 
-export const DEFAULT_VIEWPORT = getInitialViewport([-86.50, 42.10, -86.44, 42.12]);
+export const DEFAULT_VIEWPORT = getInitialViewport([-86.5, 42.1, -86.44, 42.12]);
 
 export function getInitialState(config: Config, queryString: string) {
   const draft = {
@@ -490,6 +521,8 @@ export function getInitialState(config: Config, queryString: string) {
     baseMapOpacity: parseNumberConfigProp(config[ConfigPropName.BASE_MAP_OPACITY], 75),
     colorSchemeKey: config[ConfigPropName.COLORS_SCHEME],
     selectedFlowsSheet: undefined,
+    busRoutes: true,
+    boundaries: true,
   };
 
   const bbox = config[ConfigPropName.MAP_BBOX];
@@ -497,7 +530,7 @@ export function getInitialState(config: Config, queryString: string) {
     const bounds = bbox
       .split(',')
       .map(asNumber)
-      .filter(v => v != null) as number[];
+      .filter((v) => v != null) as number[];
     if (bounds.length === 4) {
       draft.viewport = getInitialViewport(bounds as [number, number, number, number]);
       draft.adjustViewportToLocations = false;
